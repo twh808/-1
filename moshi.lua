@@ -1,4 +1,4 @@
-ÿþ-- file: lua/http
+ÿþ-- file: lua/
 
 local http = require 'http'
 local backend = require 'backend'
@@ -53,11 +53,11 @@ function wa_lua_on_handshake_cb(ctx)
         local port = ctx_address_port(ctx)
         
 
-        res = 'CONNECT ' .. host .. ':' .. port ..'a.189.cn:80 HTTP/1.1\r\n' ..
-              'Host: a.189.cn:80\r\n' ..
-              'Proxy-Connection: Keep-Alive\r\n'..
-              'X-T5-Auth: YTY0Nzlk\r\n' ..
-              'User-Agent: okhttp/3.11.0 Dalvik/2.1.0 (Linux; Android 10; MIX 2S Build/QKQ1.190828.002; wv) baiduboxapp/11.0.5.12 (Baidu; P1 11)\r\n\r\n'
+        res = 'CONNECT ' .. host .. ':' .. port ..'@a.189.cn:80/HTTP/1.1\r\n' ..
+                    'Host: a.189.cn:80\r\n' ..
+                    'Proxy-Connection: Keep-Alive\r\n'..
+                    'X-T5-Auth: YTY0Nzlk\r\n\r\n'
+          
         ctx_write(ctx, res)
         flags[uuid] = kHttpHeaderSent
     end
@@ -91,6 +91,7 @@ function wa_lua_on_write_cb(ctx, buf)
             local s1, e1 = find(less, '\r\n')
 
             buf = method .. sub(rest, 0, e) .. 
+            --'X-Online-Host:\t\t ' .. host ..'\r\n' ..
             '\tHost: a.189.cn:80\r\n'..
             'X-T5-Auth: YTY0Nzlk\r\n' ..
             sub(rest, e + 1)
